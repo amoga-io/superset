@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-x-superset-image: &superset-image apache/superset:${TAG:-latest-dev}
+x-superset-image: &superset-image apache/superset:latest
 x-superset-user: &superset-user root
 x-superset-depends-on: &superset-depends-on
   - db
@@ -22,10 +22,12 @@ x-superset-depends-on: &superset-depends-on
 x-superset-volumes: &superset-volumes
   # /app/pythonpath_docker will be appended to the PYTHONPATH in the final container
   - ./docker:/app/docker
-  - ./superset:/app/superset
-  - ./superset-frontend:/app/superset-frontend
+  #- ./superset:/app/superset
+  #- ./superset-frontend:/app/superset-frontend
   - superset_home:/app/superset_home
   - ./tests:/app/tests
+  # Multi-tenant config is now in docker/pythonpath_dev/superset_config.py
+  # It's automatically loaded via the ./docker:/app/docker mount above
 
 version: "3.7"
 services:
@@ -89,6 +91,7 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_SSL=false
+      - PYTHONPATH=/app/pythonpath:/usr/local/lib/python3.10/site-packages
 
   superset-init:
     image: *superset-image

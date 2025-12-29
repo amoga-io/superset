@@ -17,6 +17,25 @@
 # specific language governing permissions and limitations
 # under the License.
 #
+
+#
+# MULTI-TENANT FIX: Ensure psycopg2 driver is available before starting server
+#
+echo ">>> Verifying psycopg2 driver availability..."
+PSYCOPG2_SRC="/usr/local/lib/python3.10/site-packages/psycopg2"
+PSYCOPG2_DEST="/app/pythonpath/psycopg2"
+
+if [ -d "$PSYCOPG2_SRC" ]; then
+    if [ ! -L "$PSYCOPG2_DEST" ] && [ ! -d "$PSYCOPG2_DEST" ]; then
+        ln -sf "$PSYCOPG2_SRC" "$PSYCOPG2_DEST"
+        echo ">>> psycopg2 symlink created: $PSYCOPG2_DEST -> $PSYCOPG2_SRC"
+    else
+        echo ">>> psycopg2 already available in pythonpath"
+    fi
+else
+    echo ">>> WARNING: psycopg2 not found at $PSYCOPG2_SRC"
+fi
+
 HYPHEN_SYMBOL='-'
 
 gunicorn \
