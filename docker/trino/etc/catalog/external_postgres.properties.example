@@ -1,0 +1,11 @@
+# Example: Add your external PostgreSQL databases here
+# Copy this file and rename to your_catalog_name.properties
+
+connector.name=postgresql
+connection-url=jdbc:postgresql://your-host:5432/your_database
+connection-user=your_user
+connection-password=your_password
+
+# Optional: SSL configuration
+# connection-ssl.enabled=true
+# connection-ssl.trust-store-path=/path/to/truststore.jks

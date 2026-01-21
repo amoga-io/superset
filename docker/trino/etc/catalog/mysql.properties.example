@@ -1,0 +1,7 @@
+# Example: Add your MySQL databases here
+# Copy this file and rename to your_catalog_name.properties
+
+connector.name=mysql
+connection-url=jdbc:mysql://your-host:3306
+connection-user=your_user
+connection-password=your_password
